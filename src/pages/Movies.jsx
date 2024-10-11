@@ -23,20 +23,19 @@ export default function Movies() {
           alignItems: "center",
           m: "50px  5px",
           fontWeight: 800,
-          letterSpacing: 1.5,
           textTransform: "uppercase",
           fontFamily: "'Oswald', sans-serif",
-          letterSpacing: 3,
+          letterSpacing: 5,
 
           fontSize: {
             xs: "2.5rem",
             sm: "3rem",
             md: "5rem",
           },
-          background: "linear-gradient(45deg, #1e3c72, #2a5298)",
+          background: "linear-gradient(135deg, #1e3c72, #2a1e72)",
           WebkitBackgroundClip: "text",
           WebkitTextFillColor: "transparent",
-          textShadow: "3px 3px 5px rgba(0, 0, 0, 0.5)",
+          textShadow: "2px 2px 5px #1d1d1d",
         }}
       >
         Peliculas

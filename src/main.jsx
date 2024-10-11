@@ -9,7 +9,6 @@ import "@fontsource/roboto/700.css";
 import { BrowserRouter } from "react-router-dom";
 
 import { CssBaseline } from "@mui/material";
-import { MantineProvider } from "@mantine/core";
 import "./index.css";
 
 createRoot(document.getElementById("root")).render(

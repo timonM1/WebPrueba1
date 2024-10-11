@@ -1,8 +1,11 @@
 import { useState } from "react";
-import { Box, Button, Card, Grid2, TextField, Typography } from "@mui/material";
+import { Box, Button, Grid2, TextField, Typography } from "@mui/material";
 import Modal from "@mui/material/Modal";
 import ClearIcon from "@mui/icons-material/Clear";
-import { dark } from "@mui/material/styles/createPalette";
+import avatar from "../../img/avatar.jpg";
+import avatar2 from "../../img/avatar2.jpeg";
+
+import payaso from "../../img/payaso.jpeg";
 
 const API = import.meta.env.VITE_API_URL;
 
@@ -24,15 +27,16 @@ export default function AddMovieForm({ open, handleClose, setMovies }) {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    background: "linear-gradient(135deg, #f5fdfe, #d3e6f3)",
+    background: `url(${payaso})`,
+    backgroundPosition: "center",
     borderTop: "5px #60b09f solid",
-    borderRadius: "20px",
+    borderRadius: "25px",
     padding: 3,
     maxWidth: 600,
     width: "100%",
     maxHeight: "90vh",
     overflow: "auto",
-    boxShadow: "1px 3px 3px 0px #d3e6f3",
+    boxShadow: "1px 3px 8px 1px #d3e6f3",
   };
 
   const handleChange = (e) => {
@@ -89,7 +93,7 @@ export default function AddMovieForm({ open, handleClose, setMovies }) {
           <Typography
             variant="h4"
             sx={{
-              letterSpacing: 2,
+              letterSpacing: 4,
               fontWeight: 600,
               textAlign: "center",
               flexGrow: 1,
@@ -100,6 +104,10 @@ export default function AddMovieForm({ open, handleClose, setMovies }) {
                 sm: "2rem",
                 md: "3rem",
               },
+              background: "linear-gradient(135deg, #FF4500, #FF6347)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              textShadow: "1px 2px 2px #7c0707",
             }}
           >
             Crea tu película
@@ -157,7 +165,11 @@ export default function AddMovieForm({ open, handleClose, setMovies }) {
           </Grid2>
 
           <Button
-            sx={{ display: "block", margin: "auto", bgcolor: "#1c7ed6" }}
+            sx={{
+              display: "block",
+              margin: "auto",
+              bgcolor: "#135c9d",
+            }}
             type="submit"
             variant="contained"
           >
