@@ -1,15 +1,24 @@
 import { useState } from "react";
-import { Box, Button, Grid2, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Chip,
+  FormControl,
+  Grid2,
+  InputLabel,
+  MenuItem,
+  OutlinedInput,
+  Select,
+  TextField,
+  Typography,
+} from "@mui/material";
 import Modal from "@mui/material/Modal";
 import ClearIcon from "@mui/icons-material/Clear";
-import avatar from "../../img/avatar.jpg";
-import avatar2 from "../../img/avatar2.jpeg";
-
 import payaso from "../../img/payaso.jpeg";
 
 const API = import.meta.env.VITE_API_URL;
 
-export default function AddMovieForm({ open, handleClose, setMovies }) {
+export default function AddMovieForm({ open, handleClose, setMovies, genres }) {
   const defaultImage = "https://via.placeholder.com/300x300.png?text=Sin+Image";
 
   const [newMovie, setNewMovie] = useState({
@@ -41,19 +50,25 @@ export default function AddMovieForm({ open, handleClose, setMovies }) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-
-    if (name === "genre") {
-      setNewMovie({
-        ...newMovie,
-        [name]: value.split(",").map((genre) => genre.trim()),
-      });
-    } else {
-      setNewMovie({
-        ...newMovie,
-        [name]: value,
-      });
-    }
+    setNewMovie({
+      ...newMovie,
+      [name]: value,
+    });
   };
+
+  const handleGenreChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+
+    const selected = typeof value === "string" ? value.split(",") : value;
+
+    setNewMovie({
+      ...newMovie,
+      genre: selected,
+    });
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -145,14 +160,38 @@ export default function AddMovieForm({ open, handleClose, setMovies }) {
                 type="number"
                 inputProps={{ step: 0.5, min: 0, max: 5 }}
               />
-              <TextField
-                fullWidth
-                name="genre"
-                label="Géneros (separados por comas)"
-                value={newMovie.genre.join(", ")}
-                onChange={handleChange}
-                margin="normal"
-              />
+              <FormControl fullWidth margin="normal">
+                <InputLabel id="genre-label">Géneros</InputLabel>
+                <Select
+                  labelId="genre-label"
+                  id="genre"
+                  multiple
+                  value={newMovie.genre}
+                  onChange={handleGenreChange}
+                  input={
+                    <OutlinedInput id="select-multiple-chip" label="Géneros" />
+                  }
+                  renderValue={(selected) => (
+                    <Box
+                      sx={{
+                        display: "flex",
+                        flexWrap: "wrap",
+                        gap: 0.5,
+                      }}
+                    >
+                      {selected.map((value) => (
+                        <Chip key={value} label={value} />
+                      ))}
+                    </Box>
+                  )}
+                >
+                  {genres.map((genre) => (
+                    <MenuItem key={genre} value={genre}>
+                      {genre}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
               <TextField
                 fullWidth
                 name="filmProducer"

@@ -3,17 +3,8 @@ import Movie from "./Movie";
 import { Box, Grid2 } from "@mui/material";
 
 const API = import.meta.env.VITE_API_URL;
-const genres = [
-  "Acción",
-  "Comedia",
-  "Drama",
-  "Fantasía",
-  "Terror",
-  "Ciencia Ficción",
-  "Documental",
-];
 
-const getRandomGenres = () => {
+const getRandomGenres = (genres) => {
   const shuffled = genres.sort(() => 0.5 - Math.random());
   return shuffled.slice(0, 2);
 };
@@ -22,7 +13,7 @@ const getRandomRating = () => {
   return Math.floor(Math.random() * 11) / 2;
 };
 
-export default function MoviesList({ movies, setMovies }) {
+export default function MoviesList({ movies, setMovies, genres }) {
   const [movieToDelete, setMovieToDelete] = useState(null);
 
   // OBTENER LAS PELICULAS Y ACTUALIZAR LOS GENEROS DE LAS PELICULAS
@@ -33,7 +24,7 @@ export default function MoviesList({ movies, setMovies }) {
 
     const updatedMovies = await Promise.all(
       data.map(async (movie) => {
-        const randomGenres = getRandomGenres();
+        const randomGenres = getRandomGenres(genres);
         const randomRating = getRandomRating();
         await fetch(`${API}/movies/${movie.id}`, {
           method: "PUT",

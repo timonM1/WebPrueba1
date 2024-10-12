@@ -16,7 +16,7 @@ const navLinks = [
   // },
   {
     title: "Movies",
-    path: "/",
+    path: "/WebPrueba1/",
     icon: <ShopIcon />,
   },
 ];
@@ -32,7 +32,7 @@ function App() {
       <Navbar navLinks={navLinks} />
       <Routes>
         {/* <Route path={"/"} element={<Home />}></Route> */}
-        <Route path={"/"} element={<Movies />}></Route>
+        <Route path={"/WebPrueba1/"} element={<Movies />}></Route>
       </Routes>
     </>
   );

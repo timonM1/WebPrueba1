@@ -13,6 +13,16 @@ export default function Movies() {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
+  const genres = [
+    "Acción",
+    "Comedia",
+    "Drama",
+    "Fantasía",
+    "Terror",
+    "Ciencia Ficción",
+    "Documental",
+  ];
+
   return (
     <>
       <Typography
@@ -57,9 +67,10 @@ export default function Movies() {
           open={open}
           handleClose={handleClose}
           setMovies={setMovies}
+          genres={genres}
         />
       )}
-      <MoviesList movies={movies} setMovies={setMovies} />
+      <MoviesList movies={movies} setMovies={setMovies} genres={genres} />
     </>
   );
 }

@@ -70,7 +70,12 @@ export default function Movie({ movie, deleteMovie, id, updateMovie }) {
               width: "100%",
             }}
           >
-            <Button variant="contained" color="secondary" onClick={handleOpen}>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={handleOpen}
+              sx={{ bgcolor: "#00BCD4" }}
+            >
               Detalles
             </Button>
             <Button
