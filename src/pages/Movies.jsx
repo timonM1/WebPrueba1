@@ -42,10 +42,11 @@ export default function Movies() {
             sm: "3rem",
             md: "5rem",
           },
-          background: "linear-gradient(135deg, #1e3c72, #2a1e72)",
+          // background: "linear-gradient(135deg, #1e3c72, #2a1e72)",
+          background: "linear-gradient(135deg, #1992d2, #136e9e)",
           WebkitBackgroundClip: "text",
           WebkitTextFillColor: "transparent",
-          textShadow: "2px 2px 5px #1d1d1d",
+          textShadow: "2px 3px 5px #09374f",
         }}
       >
         Peliculas
@@ -55,8 +56,8 @@ export default function Movies() {
           ) : (
             <AddIcon
               sx={{
-                fontSize: 35,
-                color: "#60b09f",
+                fontSize: 40,
+                color: "#15cfa8",
               }}
             />
           )}

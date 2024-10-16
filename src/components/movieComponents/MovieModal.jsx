@@ -35,6 +35,12 @@ export default function MovieModal({ open, handleClose, movie, updateMovie }) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    if (
+      (name === "title" && value.length > 25) ||
+      (name === "description" && value.length > 300)
+    ) {
+      return;
+    }
     setEditableMovie((prev) => ({
       ...prev,
       [name]: value,
@@ -62,6 +68,7 @@ export default function MovieModal({ open, handleClose, movie, updateMovie }) {
 
             {isEditing ? (
               <TextField
+                isRequired
                 fullWidth
                 label="Titulo"
                 name="title"

@@ -50,6 +50,12 @@ export default function AddMovieForm({ open, handleClose, setMovies, genres }) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    if (
+      (name === "title" && value.length > 25) ||
+      (name === "description" && value.length > 300)
+    ) {
+      return;
+    }
     setNewMovie({
       ...newMovie,
       [name]: value,
