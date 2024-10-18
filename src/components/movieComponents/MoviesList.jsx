@@ -1,79 +1,12 @@
-import { useState, useEffect } from "react";
 import Movie from "./Movie";
 import { Box, Grid2 } from "@mui/material";
 
-const API = import.meta.env.VITE_API_URL;
-
-const getRandomGenres = (genres) => {
-  const shuffled = genres.sort(() => 0.5 - Math.random());
-  return shuffled.slice(0, 2);
-};
-
-const getRandomRating = () => {
-  return Math.floor(Math.random() * 11) / 2;
-};
-
-export default function MoviesList({ movies, setMovies, genres }) {
-  const [movieToDelete, setMovieToDelete] = useState(null);
-
-  // OBTENER LAS PELICULAS Y ACTUALIZAR LOS GENEROS DE LAS PELICULAS
-
-  const getMovies = async () => {
-    const res = await fetch(`${API}/movies`);
-    const data = await res.json();
-
-    const updatedMovies = await Promise.all(
-      data.map(async (movie) => {
-        const randomGenres = getRandomGenres(genres);
-        const randomRating = getRandomRating();
-        await fetch(`${API}/movies/${movie.id}`, {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ genre: randomGenres, rating: randomRating }),
-        });
-        return { ...movie, genre: randomGenres, rating: randomRating };
-      })
-    );
-
-    setMovies(updatedMovies);
-  };
-  useEffect(() => {
-    getMovies();
-  }, []);
-
-  // EDITAR UNA PELICULA
-  const updateMovie = async (id, updatedMovie) => {
-    const res = await fetch(`${API}/movies/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(updatedMovie),
-    });
-
-    setMovies((prevMovies) =>
-      prevMovies.map((movie) =>
-        movie.id === id ? { ...movie, ...updatedMovie } : movie
-      )
-    );
-  };
-
-  // ELIMINAR UNA PELICULA
-
-  const deleteMovie = async (id) => {
-    const userResp = window.confirm("Estas seguro de eliminar esta pelicula?");
-    if (userResp) {
-      setMovieToDelete(id);
-      await fetch(`${API}/movies/${id}`, {
-        method: "DELETE",
-      });
-      await getMovies();
-      setMovieToDelete(null);
-    }
-  };
-
+export default function MoviesList({
+  movies,
+  deleteMovie,
+  updateMovie,
+  movieToDelete,
+}) {
   return (
     <Grid2
       container

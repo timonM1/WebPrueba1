@@ -68,7 +68,7 @@ export default function MovieModal({ open, handleClose, movie, updateMovie }) {
 
             {isEditing ? (
               <TextField
-                isRequired
+                required
                 fullWidth
                 label="Titulo"
                 name="title"
