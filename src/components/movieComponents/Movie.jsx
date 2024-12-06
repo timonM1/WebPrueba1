@@ -11,7 +11,7 @@ import {
 import MovieModal from "./MovieModal";
 import { useState } from "react";
 
-export default function Movie({ movie, deleteMovie, id, updateMovie }) {
+export default function Movie({ movie, deleteMovie, updateMovie }) {
   const [open, setOpen] = useState(false);
 
   const handleOpen = () => setOpen(true);
@@ -81,7 +81,7 @@ export default function Movie({ movie, deleteMovie, id, updateMovie }) {
             <Button
               variant="contained"
               color="error"
-              onClick={() => deleteMovie(id)}
+              onClick={() => deleteMovie(movie.id)}
             >
               Eliminar
             </Button>

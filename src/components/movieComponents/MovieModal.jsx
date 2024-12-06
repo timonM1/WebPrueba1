@@ -21,23 +21,28 @@ const style = {
 
 export default function MovieModal({ open, handleClose, movie, updateMovie }) {
   const [isEditing, setIsEditing] = useState(false);
+  const [errors, setErrors] = useState({
+    title: false,
+    description: false,
+  });
   const [editableMovie, setEditableMovie] = useState({
     title: movie.title,
     description: movie.description,
-    rating: movie.rating,
-    filmProducer: movie.filmProducer,
-    genre: movie.genre,
+    rating: parseFloat(movie.rating) || 0,
+    filmProducer: movie.filmProducer || "",
+    genre: movie.genre || [],
   });
 
   const handleEdit = () => {
     setIsEditing(true);
+    setErrors({ title: false, description: false });
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (
       (name === "title" && value.length > 25) ||
-      (name === "description" && value.length > 300)
+      (name === "description" && value.length > 250)
     ) {
       return;
     }
@@ -45,6 +50,12 @@ export default function MovieModal({ open, handleClose, movie, updateMovie }) {
       ...prev,
       [name]: value,
     }));
+    if (errors[name]) {
+      setErrors((prev) => ({
+        ...prev,
+        [name]: false,
+      }));
+    }
   };
 
   const handleRatingChange = (e, newValue) => {
@@ -55,131 +66,147 @@ export default function MovieModal({ open, handleClose, movie, updateMovie }) {
   };
 
   const handleSave = () => {
+    const newErrors = {
+      title: !editableMovie.title.trim(),
+      description: !editableMovie.description.trim(),
+    };
+
+    if (newErrors.title || newErrors.description) {
+      setErrors(newErrors);
+      return;
+    }
+
     updateMovie(movie.id, editableMovie);
     setIsEditing(false);
+    setErrors({ title: false, description: false });
   };
 
   return (
-    <>
-      <Modal open={open} onClose={handleClose}>
-        <Box sx={style}>
-          <Box>
-            <CardMedia component={"img"} image={movie.image} height={200} />
+    <Modal open={open} onClose={handleClose}>
+      <Box sx={style}>
+        <Box>
+          <CardMedia component={"img"} image={movie.image} height={200} />
 
-            {isEditing ? (
-              <TextField
-                required
-                fullWidth
-                label="Titulo"
-                name="title"
-                value={editableMovie.title}
-                onChange={handleChange}
-                sx={{
-                  mt: 3,
-                }}
-              />
-            ) : (
-              <Typography
-                variant="h6"
-                component="h2"
-                sx={{ justifyContent: "center", display: "flex", mt: 3 }}
-              >
-                {editableMovie.title}
-              </Typography>
-            )}
-
-            {isEditing ? (
-              <TextField
-                fullWidth
-                label="Descripción"
-                name="description"
-                multiline
-                rows={3}
-                value={editableMovie.description}
-                onChange={handleChange}
-                sx={{ mt: 2, mb: 2 }}
-              />
-            ) : (
-              <Typography
-                sx={{
-                  mt: 2,
-                  textAlign: "justify",
-                  mb: 3,
-                  wordWrap: "break-word",
-                }}
-              >
-                {editableMovie.description}
-              </Typography>
-            )}
-            <Divider />
-
-            <Box
+          {isEditing ? (
+            <TextField
+              fullWidth
+              label="Titulo"
+              name="title"
+              value={editableMovie.title}
+              onChange={handleChange}
               sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                mb: 1,
-                mt: 1,
-                gap: 2,
-                flexWrap: "wrap",
+                mt: 3,
+              }}
+              required
+              error={errors.title}
+              helperText={errors.title ? "El título es obligatorio" : ""}
+            />
+          ) : (
+            <Typography
+              variant="h6"
+              component="h2"
+              sx={{ justifyContent: "center", display: "flex", mt: 3 }}
+            >
+              {editableMovie.title}
+            </Typography>
+          )}
+
+          {isEditing ? (
+            <TextField
+              fullWidth
+              label="Descripción"
+              name="description"
+              multiline
+              rows={3}
+              value={editableMovie.description}
+              onChange={handleChange}
+              sx={{ mt: 2, mb: 2 }}
+              required
+              error={errors.description}
+              helperText={
+                errors.description ? "La descripción es obligatoria" : ""
+              }
+            />
+          ) : (
+            <Typography
+              sx={{
+                mt: 2,
+                textAlign: "justify",
+                mb: 3,
+                wordWrap: "break-word",
               }}
             >
-              <Box sx={{ display: "flex" }}>
-                <Rating
-                  precision={0.5}
-                  readOnly={!isEditing}
-                  value={editableMovie.rating}
-                  onChange={handleRatingChange}
-                />
-                <Typography sx={{ m: "0 10px" }}>
-                  {editableMovie.rating}
-                </Typography>
-              </Box>
-              {isEditing ? (
-                <TextField
-                  fullWidth
-                  label="Productor"
-                  name="filmProducer"
-                  value={editableMovie.filmProducer}
-                  onChange={handleChange}
-                />
-              ) : (
-                <Typography>Productor: {editableMovie.filmProducer}</Typography>
-              )}
-            </Box>
-            <Typography>{movie.genre.join(" ")}</Typography>
-          </Box>
+              {editableMovie.description}
+            </Typography>
+          )}
+          <Divider />
+
           <Box
             sx={{
-              mt: 3,
-              justifyContent: "center",
               display: "flex",
-              gap: 4,
+              justifyContent: "space-between",
+              mb: 1,
+              mt: 1,
+              gap: 2,
+              flexWrap: "wrap",
             }}
           >
+            <Box sx={{ display: "flex" }}>
+              <Rating
+                precision={0.5}
+                readOnly={!isEditing}
+                value={editableMovie.rating}
+                onChange={handleRatingChange}
+              />
+              <Typography sx={{ m: "0 10px" }}>
+                {editableMovie.rating}
+              </Typography>
+            </Box>
             {isEditing ? (
-              <Button
-                variant={"contained"}
-                color="success"
-                sx={{
-                  letterSpacing: 3,
-                }}
-                onClick={handleSave}
-              >
-                Aceptar
-              </Button>
+              <TextField
+                fullWidth
+                label="Productor"
+                name="filmProducer"
+                value={editableMovie.filmProducer}
+                onChange={handleChange}
+              />
             ) : (
-              <Button
-                variant={"contained"}
-                sx={{ letterSpacing: 3, bgcolor: "orangered" }}
-                onClick={handleEdit}
-              >
-                Editar
-              </Button>
+              <Typography>Productor: {editableMovie.filmProducer}</Typography>
             )}
-            <Button onClick={handleClose}>Salir</Button>
           </Box>
+          <Typography>{movie.genre.join(" ")}</Typography>
         </Box>
-      </Modal>
-    </>
+        <Box
+          sx={{
+            mt: 3,
+            justifyContent: "center",
+            display: "flex",
+            gap: 4,
+          }}
+        >
+          {isEditing ? (
+            <Button
+              variant={"contained"}
+              color="success"
+              sx={{
+                letterSpacing: 3,
+              }}
+              onClick={handleSave}
+            >
+              Aceptar
+            </Button>
+          ) : (
+            <Button
+              variant={"contained"}
+              sx={{ letterSpacing: 3, bgcolor: "orangered" }}
+              onClick={handleEdit}
+            >
+              Editar
+            </Button>
+          )}
+          <Button onClick={handleClose}>Salir</Button>
+        </Box>
+      </Box>
+    </Modal>
   );
 }

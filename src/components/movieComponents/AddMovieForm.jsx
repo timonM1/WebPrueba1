@@ -16,7 +16,7 @@ import Modal from "@mui/material/Modal";
 import ClearIcon from "@mui/icons-material/Clear";
 import payaso from "../../img/payaso.jpeg";
 
-const API = import.meta.env.VITE_API_URL;
+import { createMovie } from "../../services/movieServices";
 
 export default function AddMovieForm({ open, handleClose, setMovies, genres }) {
   const defaultImage = "https://via.placeholder.com/300x300.png?text=Sin+Image";
@@ -24,7 +24,7 @@ export default function AddMovieForm({ open, handleClose, setMovies, genres }) {
   const [newMovie, setNewMovie] = useState({
     title: "",
     description: "",
-    rating: "",
+    rating: 0,
     genre: [],
     duration: "",
     filmProducer: "",
@@ -78,21 +78,14 @@ export default function AddMovieForm({ open, handleClose, setMovies, genres }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const res = await fetch(`${API}/movies`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newMovie),
-    });
-    const createdMovie = await res.json();
+    const createdMovie = await createMovie(newMovie);
 
     setMovies((prevMovies) => [...prevMovies, createdMovie]);
 
     setNewMovie({
       title: "",
       description: "",
-      rating: "",
+      rating: 0,
       genre: [],
       filmProducer: "",
       image: defaultImage,
@@ -147,6 +140,7 @@ export default function AddMovieForm({ open, handleClose, setMovies, genres }) {
                 value={newMovie.title}
                 onChange={handleChange}
                 margin="normal"
+                required
               />
               <TextField
                 fullWidth
@@ -155,6 +149,7 @@ export default function AddMovieForm({ open, handleClose, setMovies, genres }) {
                 value={newMovie.description}
                 onChange={handleChange}
                 margin="normal"
+                required
               />
               <TextField
                 fullWidth

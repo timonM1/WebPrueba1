@@ -1,23 +1,14 @@
 import "./App.css";
-
 import { Route, Routes } from "react-router-dom";
 import Navbar from "./components/navbar/Navbar";
-// import Home from "./pages/Home";
 import Movies from "./pages/Movies";
-// import HomeIcon from "@mui/icons-material/Home";
 import ShopIcon from "@mui/icons-material/Shop";
 import { Box, GlobalStyles } from "@mui/material";
-import { Repeat } from "@mui/icons-material";
 
 const navLinks = [
-  // {
-  //   title: "Home",
-  //   path: "/",
-  //   icon: <HomeIcon />,
-  // },
   {
     title: "Movies",
-    path: "/WebPrueba1/",
+    path: "/",
     icon: <ShopIcon />,
   },
 ];
@@ -52,7 +43,7 @@ function App() {
       <Box style={{ position: "relative", zIndex: 2 }}>
         <Navbar navLinks={navLinks} />
         <Routes>
-          <Route path={"/WebPrueba1/"} element={<Movies />} />
+          <Route path="/" element={<Movies />} />
         </Routes>
       </Box>
     </>
