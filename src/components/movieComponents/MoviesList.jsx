@@ -1,7 +1,26 @@
 import Movie from "./Movie";
-import { Box, Grid2 } from "@mui/material";
+import { Box, Grid2, Typography } from "@mui/material";
 
 export default function MoviesList({ movies, deleteMovie, updateMovie }) {
+  if (!Array.isArray(movies)) {
+    return (
+      <Box sx={{ textAlign: "center", marginTop: 4 }}>
+        <Typography variant="h6" color="error">
+          Error: No se pudieron cargar las películas.
+        </Typography>
+      </Box>
+    );
+  }
+
+  // Si el array está vacío
+  if (movies.length === 0) {
+    return (
+      <Box sx={{ textAlign: "center", marginTop: 4 }}>
+        <Typography variant="h6">No hay películas disponibles.</Typography>
+      </Box>
+    );
+  }
+
   return (
     <Grid2
       container

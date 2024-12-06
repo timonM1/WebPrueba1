@@ -30,7 +30,6 @@ export default function Movies() {
 
   const fetchMovies = async () => {
     const data = await getMovies();
-    console.log(data);
     setMovies(data);
   };
 

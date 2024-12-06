@@ -13,7 +13,7 @@ import "./index.css";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <BrowserRouter basename="/WebPrueba1/">
+    <BrowserRouter basename="/WebPrueba1">
       <CssBaseline />
       <App />
     </BrowserRouter>

@@ -4,7 +4,6 @@ import axios from "axios";
 export const getMovies = async () => {
   try {
     const res = await axios.get(`${API}/movies`);
-    console.log(res);
     return res.data;
   } catch (error) {
     console.log("ERROR AL OBETNER PELICULAS");
